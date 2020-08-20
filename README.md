@@ -31,11 +31,22 @@ With the exposed socket you can make API calls to query running containers, star
     user@66a0d5faa124:~$ ls -l /var/run/docker.sock
     srw-rw---- 1 root users 0 Jul  6 03:24 /var/run/docker.sock
     user@66a0d5faa124:~$ groups
-    user users
+    user users giddy
 
     # Query the API
     user@66a0d5faa124:/# curl --unix-socket /var/run/docker.sock http://localhost/version
     {"Platform":{"Name":"Docker Engine - Community"},"Components":[{"Name":"Engine","Version":"18.09.6","Details":{"ApiVersion":"1.39","Arch":"amd64","BuildTime":"2019-05-04T02:41:08.000000000+00:00","Experimental":"false","GitCommit":"481bc77","GoVersion":"go1.10.8","KernelVersion":"4.14.116-boot2docker","MinAPIVersion":"1.12","Os":"linux"}}],"Version":"18.09.6","ApiVersion":"1.39","MinAPIVersion":"1.12","GitCommit":"481bc77","GoVersion":"go1.10.8","Os":"linux","Arch":"amd64","KernelVersion":"4.14.116-boot2docker","BuildTime":"2019-05-04T02:41:08.000000000+00:00"}
+</details>
+
+<details>
+    <summary>GIDding around</summary>
+
+    # Sometimes the GID the group that can write to /var/run/docker.sock inside the container might show up as a number, i.e:
+    # srw-rw---- 1 root 967 0 Jul  6 03:24 /var/run/docker.sock
+    # This is because the GID of the docker group on the host doesn't exist in the container.
+    # The container user is a member of the "giddy" group which can be used with "groupadd", which has been given suid permissions, to grant the user write permissions on /var/run/docker.sock.
+    # This can be done with the following command:
+    groupadd -fg {writable-gid} giddy # where {writable-gid} is the gid in your "ls -l /var/run/docker.sock" output
 </details>
 
 #### Exercise 2: Command execution
