@@ -1,7 +1,7 @@
 FROM debian:buster
 
 RUN apt-get update
-RUN apt-get upgrade
+RUN apt-get upgrade -y
 
 # Install tools
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y build-essential net-tools procps curl wget file netcat vim
