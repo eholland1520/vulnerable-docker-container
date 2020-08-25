@@ -15,7 +15,7 @@ RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/bin/bash", "/entrypoint.sh"]
 
 # Create privesc vector in case of gid mismatch
-RUN chmod 4000 /usr/sbin/groupadd
+RUN chmod u+s /usr/sbin/groupmod
 RUN groupadd giddy
 
 # Create a low privileged user

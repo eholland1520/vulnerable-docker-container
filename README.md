@@ -46,7 +46,7 @@ With the exposed socket you can make API calls to query running containers, star
     # This is because the GID of the docker group on the host doesn't exist in the container.
     # The container user is a member of the "giddy" group which can be used with "groupadd", which has been given suid permissions, to grant the user write permissions on /var/run/docker.sock.
     # This can be done with the following command:
-    groupadd -fg {writable-gid} giddy # where {writable-gid} is the gid in your "ls -l /var/run/docker.sock" output
+    groupmod -g {writable-gid} giddy # where {writable-gid} is the gid in your "ls -l /var/run/docker.sock" output
 </details>
 
 #### Exercise 2: Command execution
