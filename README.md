@@ -1,4 +1,4 @@
-# Damn Vulnerable Docker Container
+# Vulnerable Docker Container
 
 ## Getting Started
 
